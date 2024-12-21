@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/38888/nunu-layout-advanced/api/v1"
 	"github.com/38888/nunu-layout-advanced/internal/service"
+	"github.com/38888/nunu-layout-advanced/pkg/ctxdata"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net/http"
@@ -84,7 +85,7 @@ func (h *UserHandler) Login(ctx *gin.Context) {
 // @Success 200 {object} v1.GetProfileResponse
 // @Router /user [get]
 func (h *UserHandler) GetProfile(ctx *gin.Context) {
-	userId := GetUserIdFromCtx(ctx)
+	userId := ctxdata.GetUserIdFromCtx(ctx)
 	if userId == 0 {
 		v1.HandleError(ctx, http.StatusUnauthorized, v1.ErrUnauthorized, nil)
 		return
@@ -111,7 +112,7 @@ func (h *UserHandler) GetProfile(ctx *gin.Context) {
 // @Success 200 {object} v1.Response
 // @Router /user [put]
 func (h *UserHandler) UpdateProfile(ctx *gin.Context) {
-	userId := GetUserIdFromCtx(ctx)
+	userId := ctxdata.GetUserIdFromCtx(ctx)
 
 	var req v1.UpdateProfileRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
